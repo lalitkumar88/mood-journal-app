@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const isValidEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   const handleLogin = async () => {
     try {
       // mock login for now
-      if (email.length && password.length) {
+      if (isValidEmail(email) && password.length) {
         localStorage.setItem("token", "dummy");
         navigate("/dashboard");
       }
@@ -40,6 +44,7 @@ function Login() {
           Email
         </label>
         <input
+          required
           type="email"
           name="email"
           id="email"
@@ -53,6 +58,7 @@ function Login() {
           Password
         </label>
         <input
+          required
           type="password"
           name="password"
           id="password"
@@ -61,7 +67,6 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-
       <div>
         <button type="submit" onClick={handleLogin}>
           Submit
