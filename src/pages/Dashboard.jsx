@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   return (
     <>
       <h4>Dashboard</h4>
-      <a href="/add-entry">Add New Entry</a>
+      <Link to="/add-entry">Add New Entry</Link>
     </>
   );
 }

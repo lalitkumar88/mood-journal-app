@@ -3,16 +3,44 @@ import "./App.css";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AddEntry from "./pages/AddEntry";
+import Layout from "./components/Layout";
+import AuthProvider from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/add-entry" element={<AddEntry />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* this is public route */}
+          <Route path="/" element={<Login />} />
+
+          {/* all other are protected routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  {" "}
+                  <Dashboard />{" "}
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-entry"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  {" "}
+                  <AddEntry />{" "}
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
