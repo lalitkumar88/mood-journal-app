@@ -36,52 +36,34 @@ function Login() {
   };
 
   return (
-    <div
-      style={{
-        padding: "40px",
-        maxWidth: "400px",
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        textAlign: "center",
-        border: "1px solid brown",
-      }}
-    >
-      <h4>Login</h4>
-      <p>
-        Start Your Journey with <strong>Mood-Journal</strong>
-      </p>
-      <div>
-        <label htmlFor="email" className="me-2" style={{ width: "90px" }}>
-          Email
-        </label>
-        <input
-          required
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="me-2" style={{ width: "90px" }}>
-          Password
-        </label>
-        <input
-          required
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <div>
-        <button type="submit" onClick={handleLogin}>
+    <div className="container mt-5">
+      <div className="card p-4 shadow-sm mx-auto" style={{ maxWidth: "420px" }}>
+        <h4 className="text-center mb-2">Login</h4>
+        <p className="text-center">
+          Start Your Journey with <strong>Mood-Journal</strong>
+        </p>
+
+        <div className="mb-3 text-start">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3 text-start">
+          <label className="form-label">Password</label>
+          <input
+            type="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <button className="btn btn-primary w-100" onClick={handleLogin}>
           Submit
         </button>
       </div>

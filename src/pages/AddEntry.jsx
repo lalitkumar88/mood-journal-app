@@ -24,54 +24,41 @@ function AddEntry() {
   };
 
   return (
-    <div
-      style={{
-        padding: "40px",
-        maxWidth: "400px",
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        textAlign: "center",
-        border: "1px solid brown",
-      }}
-    >
-      <h4>Add Entry Page</h4>
+    <div className="container mt-4">
+      <div className="card p-4 shadow-sm mx-auto" style={{ maxWidth: "450px" }}>
+        <h4 className="mb-3">Add Entry</h4>
 
-      <div>
         <textarea
-          type="text"
-          name="text"
-          id="text"
-          placeholder="Start typing your thoughts here..."
-          rows={10}
-          cols={30}
+          rows="7"
+          className="form-control mb-3"
+          placeholder="Start typing your thoughts..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-      </div>
 
-      <div>
-        <button type="submit" onClick={handleSubmit}>
+        <button className="btn btn-success w-100" onClick={handleSubmit}>
           Submit
         </button>
+
+        {loading && <p className="mt-3 text-center">Analyzing...</p>}
+
+        {result && (
+          <div className="mt-4 alert alert-info">
+            <p>
+              <strong>Summary:</strong> {result.summary}
+            </p>
+            <p>
+              <strong>Suggestion:</strong> {result.suggestion}
+            </p>
+            <p>
+              <strong>Score:</strong> {result.score}
+            </p>
+            <p>
+              <strong>Tags:</strong> {result.tags.join(", ")}
+            </p>
+          </div>
+        )}
       </div>
-
-      {loading && <p>Analyzing...</p>}
-
-      {result && (
-        <div style={{ marginTop: "100px" }}>
-          <h5>Summary : {result.summary}</h5>
-          <p>Suggestions : {result.suggestion}</p>
-          <h5>
-            Tags involved :{" "}
-            {result.tags.map((tag) => (
-              <span key={tag}>{tag} </span>
-            ))}
-          </h5>
-          <h5>Score : {result.score}</h5>
-        </div>
-      )}
     </div>
   );
 }

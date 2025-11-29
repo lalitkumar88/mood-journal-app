@@ -24,16 +24,13 @@ function Dashboard() {
       <h4>Dashboard</h4>
       <Link to="/add-entry">Add New Entry</Link>
 
-      <ul style={{ marginTop: "20px" }}>
-        {entries.length === 0 && <p>No entries yet.</p>}
-
-        {avgScore && <h4>Average Mood: {avgScore}/10</h4>}
+      <ul className="list-group mt-4">
+        {entries.length === 0 && (
+          <div className="alert alert-secondary">No entries yet.</div>
+        )}
 
         {entries.map((e, idx) => (
-          <li
-            key={idx}
-            style={{ marginBottom: "10px", borderBottom: "1px solid #ccc" }}
-          >
+          <li className="list-group-item" key={idx}>
             <p>
               <strong>Question:</strong> {e.text}
             </p>
@@ -46,16 +43,16 @@ function Dashboard() {
             <p>
               <strong>Score:</strong> {e.score}
             </p>
-            <small>{e.date}</small>
-            <br />
-            <button
-              style={{ display: "block", margin: "10px 0" }}
-              onClick={() => {
-                handleDelete(idx);
-              }}
-            >
-              Delete Entry
-            </button>
+            <small className="text-muted">{e.date}</small>
+
+            <div className="mt-2">
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => handleDelete(idx)}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
