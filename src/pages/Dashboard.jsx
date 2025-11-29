@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getEntries } from "../api/journal";
+import { deleteEntry, getEntries } from "../api/journal";
 
 function Dashboard() {
-  const entries = getEntries();
+  // const entries = getEntries();
+
+  const [entries, setEntries] = useState([]);
+  useEffect(() => {
+    setEntries(getEntries());
+  }, []);
+
+  const handleDelete = (idx) => {
+    deleteEntry(idx);
+    setEntries(getEntries());
+  };
 
   const avgScore = entries.length
     ? Math.round(entries.reduce((a, e) => a + e.score, 0) / entries.length)
@@ -37,6 +47,15 @@ function Dashboard() {
               <strong>Score:</strong> {e.score}
             </p>
             <small>{e.date}</small>
+            <br />
+            <button
+              style={{ display: "block", margin: "10px 0" }}
+              onClick={() => {
+                handleDelete(idx);
+              }}
+            >
+              Delete Entry
+            </button>
           </li>
         ))}
       </ul>

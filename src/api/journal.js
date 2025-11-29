@@ -22,3 +22,9 @@ export function saveEntry(entry) {
 export function getEntries() {
   return JSON.parse(localStorage.getItem("entries") || "[]");
 }
+
+export function deleteEntry(index) {
+  const list = JSON.parse(localStorage.getItem("entries") || "[]");
+  list.splice(index, 1);
+  localStorage.setItem("entries", JSON.stringify(list));
+}
