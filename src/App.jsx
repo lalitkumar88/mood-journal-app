@@ -6,6 +6,7 @@ import AddEntry from "./pages/AddEntry";
 import Layout from "./components/Layout";
 import AuthProvider from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -32,6 +33,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <AddEntry />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Profile />
                 </Layout>
               </ProtectedRoute>
             }
