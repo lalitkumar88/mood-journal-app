@@ -4,10 +4,13 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [token, setToken] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem("token");
     if (saved) setToken(saved);
+
+    setLoading(false); // localStorage check done
   }, []); // This happens when the app first loads.
   // You check if localStorage has a token saved.
   // If yes, you put that token into state.
@@ -27,7 +30,7 @@ export default function AuthProvider({ children }) {
   // And from the state.
   // Now the app knows they're logged out.
 
-  const value = { token, login, logout, isLoggedIn: !!token };
+  const value = { token, login, logout, isLoggedIn: !!token, loading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -21,8 +21,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  {" "}
-                  <Dashboard />{" "}
+                  <Dashboard />
                 </Layout>
               </ProtectedRoute>
             }
@@ -32,8 +31,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  {" "}
-                  <AddEntry />{" "}
+                  <AddEntry />
                 </Layout>
               </ProtectedRoute>
             }

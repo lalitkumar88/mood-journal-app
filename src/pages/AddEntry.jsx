@@ -1,25 +1,26 @@
 import React, { useState } from "react";
+import { analyzeEntry, saveEntry } from "../api/journal";
 
 function AddEntry() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    try {
-      //fake API response for now
+    if (!text.trim()) return;
 
-      if (text.trim().length) {
-        const fakeResponse = {
-          summary: "You seem a bit stressed but trying to stay positive.",
-          score: 6,
-          tags: ["stressed", "hopeful"],
-          suggestion: "Try to take a break.",
-        };
-        setResult(fakeResponse);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    setLoading(true);
+    const result = await analyzeEntry(text);
+    setLoading(false);
+
+    const entry = {
+      text,
+      ...result,
+      date: new Date().toLocaleString(),
+    };
+
+    saveEntry(entry);
+    setResult(entry);
   };
 
   return (
@@ -55,6 +56,8 @@ function AddEntry() {
           Submit
         </button>
       </div>
+
+      {loading && <p>Analyzing...</p>}
 
       {result && (
         <div style={{ marginTop: "100px" }}>
