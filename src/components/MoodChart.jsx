@@ -43,7 +43,7 @@ function MoodChart() {
           pointHoverRadius: 7,
           fill: false,
 
-          // Dynamic POINT colors (keep your working logic)
+          // Dynamic point colors
           pointBackgroundColor: sorted.map((entry) => {
             if (entry.score <= 4) return "rgb(220, 53, 69)"; // red
             if (entry.score <= 7) return "rgb(255, 193, 7)"; // yellow
@@ -56,10 +56,10 @@ function MoodChart() {
             return "rgb(25, 135, 84)";
           }),
 
-          // 🔥 Dynamic LINE segment coloring
+          // Dynamic line segment coloring
           segment: {
             borderColor: (ctx) => {
-              const value = ctx.p1.parsed.y; // next point value
+              const value = ctx.p1.parsed.y;
 
               if (value <= 4) return "rgb(220, 53, 69)";
               if (value <= 7) return "rgb(255, 193, 7)";
@@ -73,6 +73,11 @@ function MoodChart() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+      intersect: false,
+    },
     plugins: {
       legend: {
         display: true,
@@ -107,16 +112,14 @@ function MoodChart() {
   };
 
   if (!entries.length) {
-    return <p>No mood scores recorded yet.</p>;
+    return (
+      <p className="text-center text-muted">No mood scores recorded yet.</p>
+    );
   }
 
   return (
-    <div className="w-100">
-      <div className="d-flex justify-content-center">
-        <div style={{ width: "100%", maxWidth: "900px" }}>
-          <Line data={chartData} options={options} />
-        </div>
-      </div>
+    <div style={{ width: "100%", height: "300px" }}>
+      <Line data={chartData} options={options} />
     </div>
   );
 }
