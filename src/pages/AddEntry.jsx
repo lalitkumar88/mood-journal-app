@@ -12,6 +12,7 @@ function AddEntry() {
     setLoading(true);
     const result = await analyzeEntry(text);
     setLoading(false);
+    setText(""); //text set to blank after result is done
 
     const entry = {
       text,
