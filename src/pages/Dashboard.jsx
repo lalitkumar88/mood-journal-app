@@ -29,8 +29,8 @@ function Dashboard() {
           <div className="alert alert-secondary">No entries yet.</div>
         )}
 
-        {entries.map((e, idx) => (
-          <li className="list-group-item" key={idx}>
+        {entries.map((e) => (
+          <li className="list-group-item" key={e.id}>
             <p>
               <strong>Question:</strong> {e.text}
             </p>
@@ -48,7 +48,7 @@ function Dashboard() {
             <div className="mt-2">
               <button
                 className="btn btn-sm btn-danger"
-                onClick={() => handleDelete(idx)}
+                onClick={() => handleDelete(e.id)}
               >
                 Delete
               </button>

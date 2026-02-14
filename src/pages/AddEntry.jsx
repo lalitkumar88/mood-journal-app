@@ -15,6 +15,7 @@ function AddEntry() {
     setText(""); //text set to blank after result is done
 
     const entry = {
+      id: Date.now(),
       text,
       ...result,
       date: new Date().toLocaleString(),
