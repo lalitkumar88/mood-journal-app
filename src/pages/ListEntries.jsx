@@ -33,7 +33,6 @@ function ListEntries() {
   const handleDelete = (id) => {
     if (window.confirm("Delete this entry?")) {
       deleteEntry(id, user.email);
-
       setEntries((prev) => {
         const updated = prev.filter((entry) => entry.id !== id);
 
@@ -56,9 +55,41 @@ function ListEntries() {
       ).toFixed(1)
     : null;
 
+  //function for downloading all entries in excel
+  const handleExport = () => {
+    const headers = ["Id", "Date", "Text", "Summary", "Score", "Suggestion"];
+
+    const rows = sortedEntries.map((entry) => [
+      `="${entry.id}"`, // ✅ prevents scientific notation
+      `"${entry.date}"`,
+      `"${(entry.text || "").replace(/"/g, '""')}"`,
+      `"${(entry.summary || "").replace(/"/g, '""')}"`,
+      entry.score,
+      `"${(entry.suggestion || "").replace(/"/g, '""')}"`,
+    ]);
+
+    const csvContent =
+      "\uFEFF" + [headers, ...rows].map((row) => row.join(",")).join("\n");
+
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "mood_entries.csv";
+    link.click();
+  };
+
   return (
     <div className="container mt-4">
       <h3 className="mb-3">All Entries</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4>Your Entries</h4>
+        <button className="btn btn-success" onClick={handleExport}>
+          Download Excel
+        </button>
+      </div>
 
       {entries.length > 0 && (
         <div className="alert alert-info">
