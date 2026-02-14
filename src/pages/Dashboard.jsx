@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteEntry, getEntries } from "../api/journal";
 import { AuthContext } from "../context/AuthContext";
+import MoodChart from "../components/MoodChart";
 
 function Dashboard() {
   const { user } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function Dashboard() {
       <h4>Dashboard</h4>
       <Link to="/add-entry">Add New Entry</Link>
 
+      <MoodChart />
       <ul className="list-group mt-4">
         {entries.length === 0 && (
           <div className="alert alert-secondary">No entries yet.</div>
