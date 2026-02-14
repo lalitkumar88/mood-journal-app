@@ -21,6 +21,11 @@ function Navbar() {
               Dashboard
             </Link>
           </li>
+          <li>
+            <Link className="nav-link" to="/entries">
+              List Entries
+            </Link>
+          </li>
           <li className="nav-item">
             <Link className="nav-link" to="/profile">
               Profile

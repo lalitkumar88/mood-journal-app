@@ -30,38 +30,6 @@ function Dashboard() {
       <Link to="/add-entry">Add New Entry</Link>
 
       <MoodChart />
-      <ul className="list-group mt-4">
-        {entries.length === 0 && (
-          <div className="alert alert-secondary">No entries yet.</div>
-        )}
-
-        {entries.map((e) => (
-          <li className="list-group-item" key={e.id}>
-            <p>
-              <strong>Question:</strong> {e.text}
-            </p>
-            <p>
-              <strong>Summary:</strong> {e.summary}
-            </p>
-            <p>
-              <strong>Suggestion:</strong> {e.suggestion}
-            </p>
-            <p>
-              <strong>Score:</strong> {e.score}
-            </p>
-            <small className="text-muted">{e.date}</small>
-
-            <div className="mt-2">
-              <button
-                className="btn btn-sm btn-danger"
-                onClick={() => handleDelete(e.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
     </>
   );
 }

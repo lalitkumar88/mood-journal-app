@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import AuthProvider from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
+import ListEntries from "./pages/ListEntries";
 
 function App() {
   return (
@@ -23,6 +24,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <Dashboard />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/entries"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <ListEntries />
                 </Layout>
               </ProtectedRoute>
             }
