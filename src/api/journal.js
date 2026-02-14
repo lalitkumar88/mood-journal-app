@@ -9,7 +9,7 @@ export async function analyzeEntry(text) {
         tags: ["calm", "reflective"],
         suggestion: "Maybe go for a short walk.",
       });
-    }, 500)
+    }, 500),
   );
 }
 
@@ -23,8 +23,9 @@ export function getEntries() {
   return JSON.parse(localStorage.getItem("entries") || "[]");
 }
 
-export function deleteEntry(index) {
+export function deleteEntry(id) {
   const list = JSON.parse(localStorage.getItem("entries") || "[]");
-  list.splice(index, 1);
-  localStorage.setItem("entries", JSON.stringify(list));
+  // updatedList contains all entries with different id than selected id
+  const updatedList = list.filter((entry) => entry.id !== id);
+  localStorage.setItem("entries", JSON.stringify(updatedList));
 }

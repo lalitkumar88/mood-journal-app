@@ -10,9 +10,11 @@ function Dashboard() {
     setEntries(getEntries());
   }, []);
 
-  const handleDelete = (idx) => {
-    deleteEntry(idx);
-    setEntries(getEntries());
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure?")) {
+      deleteEntry(id);
+      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+    }
   };
 
   const avgScore = entries.length
