@@ -30,7 +30,7 @@ function Login() {
 
   const handleLogin = () => {
     if (isValidEmail(email) && password.length) {
-      login("dummy"); //login is a function doing exactly same thing as line 21 above
+      login("dummy", email); //login is a function doing exactly same thing as line 21 above
       navigate("/dashboard");
     }
   };

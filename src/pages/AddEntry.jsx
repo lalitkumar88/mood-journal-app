@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { analyzeEntry, saveEntry } from "../api/journal";
+import { AuthContext } from "../context/AuthContext";
 
 function AddEntry() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const handleSubmit = async () => {
     if (!text.trim()) return;
@@ -21,7 +23,7 @@ function AddEntry() {
       date: new Date().toLocaleString(),
     };
 
-    saveEntry(entry);
+    saveEntry(entry, user.email);
     setResult(entry);
   };
 

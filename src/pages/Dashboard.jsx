@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteEntry, getEntries } from "../api/journal";
+import { AuthContext } from "../context/AuthContext";
 
 function Dashboard() {
-  // const entries = getEntries();
-
+  const { user } = useContext(AuthContext);
   const [entries, setEntries] = useState([]);
   useEffect(() => {
-    setEntries(getEntries());
-  }, []);
+    if (user) {
+      setEntries(getEntries(user.email));
+    }
+  }, [user]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure?")) {
-      deleteEntry(id);
+      deleteEntry(id, user.email);
       setEntries((prev) => prev.filter((entry) => entry.id !== id));
     }
   };

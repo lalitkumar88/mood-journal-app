@@ -13,19 +13,23 @@ export async function analyzeEntry(text) {
   );
 }
 
-export function saveEntry(entry) {
-  const list = JSON.parse(localStorage.getItem("entries") || "[]");
+export function saveEntry(entry, email) {
+  const key = `entries_${email}`;
+  const list = JSON.parse(localStorage.getItem(key) || "[]");
   list.push(entry);
-  localStorage.setItem("entries", JSON.stringify(list));
+  localStorage.setItem(key, JSON.stringify(list));
 }
 
-export function getEntries() {
-  return JSON.parse(localStorage.getItem("entries") || "[]");
+export function getEntries(email) {
+  const key = `entries_${email}`;
+  return JSON.parse(localStorage.getItem(key) || "[]");
 }
 
-export function deleteEntry(id) {
-  const list = JSON.parse(localStorage.getItem("entries") || "[]");
-  // updatedList contains all entries with different id than selected id
+export function deleteEntry(id, email) {
+  const key = `entries_${email}`;
+
+  const list = JSON.parse(localStorage.getItem(key) || "[]");
   const updatedList = list.filter((entry) => entry.id !== id);
-  localStorage.setItem("entries", JSON.stringify(updatedList));
+
+  localStorage.setItem(key, JSON.stringify(updatedList));
 }
