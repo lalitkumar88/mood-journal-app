@@ -111,13 +111,12 @@ function MoodChart() {
   }
 
   return (
-    <div style={{ width: "1000px", margin: "50px 250px", padding: "5px" }}>
-      <h4 style={{ textAlign: "center" }}>Mood Score Trend</h4>
-      <Line
-        data={chartData}
-        options={options}
-        style={{ border: "1px solid black", padding: "5px" }}
-      />
+    <div className="w-100">
+      <div className="d-flex justify-content-center">
+        <div style={{ width: "100%", maxWidth: "900px" }}>
+          <Line data={chartData} options={options} />
+        </div>
+      </div>
     </div>
   );
 }
