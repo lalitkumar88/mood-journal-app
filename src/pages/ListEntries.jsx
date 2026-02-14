@@ -1,24 +1,54 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getEntries, deleteEntry } from "../api/journal";
 
 function ListEntries() {
   const { user } = useContext(AuthContext);
   const [entries, setEntries] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const entriesPerPage = 5;
 
   useEffect(() => {
     if (user) {
-      setEntries(getEntries(user.email));
+      const data = getEntries(user.email);
+      setEntries(data);
+      setCurrentPage(1); // reset page on user change
     }
   }, [user]);
 
+  //Sort entries by newest date first
+  const sortedEntries = useMemo(() => {
+    return [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [entries]);
+
+  //Pagination calculations
+  const totalPages = Math.ceil(sortedEntries.length / entriesPerPage);
+
+  const paginatedEntries = useMemo(() => {
+    const startIndex = (currentPage - 1) * entriesPerPage;
+    return sortedEntries.slice(startIndex, startIndex + entriesPerPage);
+  }, [sortedEntries, currentPage]);
+
+  //Delete handler
   const handleDelete = (id) => {
     if (window.confirm("Delete this entry?")) {
       deleteEntry(id, user.email);
-      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+
+      setEntries((prev) => {
+        const updated = prev.filter((entry) => entry.id !== id);
+
+        // Adjust page if last item on page was deleted
+        const newTotalPages = Math.ceil(updated.length / entriesPerPage);
+        if (currentPage > newTotalPages) {
+          setCurrentPage(newTotalPages || 1);
+        }
+
+        return updated;
+      });
     }
   };
 
+  //Global average score (based on ALL entries)
   const averageScore = entries.length
     ? (
         entries.reduce((total, entry) => total + entry.score, 0) /
@@ -41,7 +71,7 @@ function ListEntries() {
       )}
 
       <div className="row">
-        {entries.map((entry) => (
+        {paginatedEntries.map((entry) => (
           <div className="col-md-6 col-lg-4 mb-4" key={entry.id}>
             <div className="card h-100 shadow-sm">
               <div className="card-body d-flex flex-column">
@@ -83,6 +113,57 @@ function ListEntries() {
           </div>
         ))}
       </div>
+
+      {/* 🔹 Pagination Controls */}
+      {totalPages > 1 && (
+        <div
+          className="d-flex justify-content-between align-items-center m-3 p-3"
+          style={{
+            backgroundColor: "#f8f9ff",
+            borderRadius: "12px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+          }}
+        >
+          <button
+            className="btn"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+            style={{
+              backgroundColor: currentPage === 1 ? "#e0e0e0" : "#4f6df5",
+              color: currentPage === 1 ? "#000" : "#fff",
+              borderRadius: "8px",
+              padding: "6px 16px",
+              border: "none",
+              transition: "all 0.2s ease",
+              cursor: currentPage === 1 ? "not-allowed" : "pointer",
+            }}
+          >
+            Previous
+          </button>
+
+          <span style={{ fontWeight: "500", color: "#333" }}>
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            className="btn"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            style={{
+              backgroundColor:
+                currentPage === totalPages ? "#e0e0e0" : "#4f6df5",
+              color: currentPage === totalPages ? "#000" : "#fff",
+              borderRadius: "8px",
+              padding: "6px 16px",
+              border: "none",
+              transition: "all 0.2s ease",
+              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+            }}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
