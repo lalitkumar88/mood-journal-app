@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import MoodChart from "../components/MoodChart";
+import AnalyticalSummary from "../components/AnalyticsSummary";
+import { AuthContext } from "../context/AuthContext";
+import { getEntries } from "../api/journal";
 
 function Dashboard() {
+  const { user } = useContext(AuthContext);
+  const entries = user ? getEntries(user.email) : [];
+
   return (
     <div className="container py-4">
       {/* Hero Section */}
@@ -22,6 +28,9 @@ function Dashboard() {
           </Link>
         </div>
       </div>
+
+      {/* Analytics Summary */}
+      <AnalyticalSummary entries={entries} />
 
       {/* Chart Section */}
       <div className="card shadow-sm p-3 p-md-4">

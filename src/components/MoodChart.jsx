@@ -30,6 +30,12 @@ function MoodChart() {
     return [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [entries]);
 
+  if (!entries.length) {
+    return (
+      <p className="text-center text-muted">No mood scores recorded yet.</p>
+    );
+  }
+
   const chartData = {
     labels: sortedEntries.map((entry) =>
       new Date(entry.date).toLocaleDateString("en-IN", {
@@ -132,12 +138,6 @@ function MoodChart() {
       },
     },
   };
-
-  if (!entries.length) {
-    return (
-      <p className="text-center text-muted">No mood scores recorded yet.</p>
-    );
-  }
 
   return (
     <div style={{ width: "100%", height: "300px" }}>
